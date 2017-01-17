@@ -1,93 +1,201 @@
 /**
   *
-  * Dient zur Verbindung mehrerer Zahlen durch Rechenoperatoren
+  * [old: Dient zur Verbindung mehrerer Zahlen durch Rechenoperatoren (old: october 2016)] 
   *
-  * @version 1.1 vom 06.10.2016
+  * Dient zur Verwendung von Zahlen in jeder Hinsicht
+  * Diese Klasse enthält alle Methoden zur Interaktion mit der Konsole
+  * 
+  * @version 1.2 vom 13.01.2017
   * @author Robin Freund
   */
-import java.util.Scanner;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Calc {
   
   // Variablendeklaration
   public static Scanner sc = new Scanner(System.in);
   public static double LastCalc = 0;
+  public static double LastTimeDiff = 0;
   public static double[] LastCalcArray;
-  
+  public static String LastCalcString;
+         
+  /**
+   * Main program // Hauptprogramm
+   */
   public static void main(String[] args) {
     printCases(); // "Hilfe" ausgeben und "Programm starten"
   } // end of main
   
-  // printCases: Gibt nacheinander die Möglichkeiten auf, das Programm zu benutzen
+  /**
+   * Gibt nacheinander die Möglichkeiten aus, das Programm zu benutzen
+   */
   private static void printCases() {
-    System.out.println("-----Taschenrechner-----\nEs gibt fünf Möglichkeiten, mit Zahlen zu rechnen:\n-------");  
-    System.out.println("(A)ddition");  
-    System.out.println("(S)ubtraktion");  
-    System.out.println("(M)ultiplikation");  
-    System.out.println("(D)ivision"); 
-    System.out.println("(W)urzel");
-    System.out.println("(Sin)us");  
-    System.out.println("(Cos)inus"); 
-    System.out.println("(Tan)gens");   
-    System.out.println("(B)ubbleSort"); 
-    System.out.println("-------");
+    System.out.println(Utils.makeBeauty("------Taschenrechner------\nEs gibt acht Möglichkeiten, mit Zahlen zu rechnen:"));  
+    System.out.println("> (A)ddition");  
+    System.out.println("> (S)ubtraktion");  
+    System.out.println("> (M)ultiplikation");  
+    System.out.println("> (D)ivision"); 
+    System.out.println("> (W)urzel");
+    System.out.println("> (Sin)us");  
+    System.out.println("> (Cos)inus"); 
+    System.out.println("> (Tan)gens");      
+    System.out.println("> (Ach[was])terbahnzahlen");  
+    System.out.println("-------\nSortieralgorithmen \nBeispiel: B für Bubblesort, B-Z für Zufallszahlengenerator:\n-------");  
+    System.out.println("> (B)ubblesort");     
+    System.out.println("+> mit (-Z)ufallszahlen, die sortiert werden");  
+    System.out.println("> (I)nsertSort");     
+    System.out.println("+> mit (-Z)ufallszahlen, die sortiert werden");    
+    System.out.println("> (Qu)ickSort");     
+    System.out.println("+> mit (-Z)ufallszahlen, die sortiert werden");
+    System.out.println("> (Se)lectionsort");     
+    System.out.println("+> mit (-Z)ufallszahlen, die sortiert werden"); 
+    System.out.println("-------");          
+    System.out.println("> (E)xit um das Programm zu beenden"); 
     
-    System.out.print("Ihre Wahl? ");
+    System.out.print("\nIhre Wahl? ");
     checkCase(); // Rechenart abfragen und ausführen, führt am Ende wieder zum Anfang von printCases()        
   }
   
+  /**
+   * This function checks the user input for a decision which function call has to be made
+   */
   private static void checkCase() {
     String output = "";
+    
+    // TODO: MAKE FUNCTIONS INVOKABLE FOR MORE EFFICIENT TIME MEASURING
     
     // prüft die Eingabe nach Befehlen und mache alle Buchstaben zu Kleinbuchstaben 
     // --> Erspart, nach großen und kleinen Buchstaben in der Eingabe zu scannen
     // und filtert sog. "Whitespace"-Zeichen, also Leerzeichen etc. aus der Eingabe
     switch (sc.nextLine().toLowerCase().trim()) {
       case "exit":
+      case "q":
+      case "e":
+      case "x":
         return;
+      case "daniel stinkt":
+        output = "Jup.";
+        break;
       case "debug":
-        output = Utils.printBeauty("Letztes Ergebnis: " + LastCalc);
+        output = Utils.makeBeauty("Letztes Ergebnis: " + LastCalc);
         break;
       case "a": 
         System.out.print("Eingabe (Zu addierende Zahlen mit + trennen): ");
-        LastCalc = doAddition();
+        LastCalc = Mathematics.doAddition(getDifferentNumbers("(\\+)"));
         break;
       case "s":       
-        System.out.print("Eingabe (Zu subtrahierende Zahlen mit - trennen): ");
-        LastCalc = doSubstraction();
+        System.out.print("Eingabe (Zu subtrahierende Zahlen mit - trennen): ");  
+        LastCalc = Mathematics.doSubstraction(getDifferentNumbers("\\-"));
         break;
       case "m":  
         System.out.print("Eingabe (Zahlen durch x oder * trennen): ");
-        LastCalc = doMultiplication();
+        LastCalc = Mathematics.doMultiplication(getDifferentNumbers("(\\*|x)"));
         break;
       case "d":  
         System.out.print("Eingabe (Zahlen durch / oder : trennen): ");
-        LastCalc = doDivision();
+        LastCalc = Mathematics.doDivision(getDifferentNumbers("(\\/|:)"));
         break; 
       case "w":  
-        System.out.print("Eingabe: ");
-        LastCalc = doSqrt();
+        System.out.print("Eingabe des Wertes: ");
+        LastCalc = Mathematics.doSqrt(getDifferentNumbers("")[0]); 
         break;
       case "sin":
-        System.out.print("Eingabe: ");   
-        LastCalc = doSin();
+        System.out.print("Eingabe des Wertes: ");   
+        LastCalc = Mathematics.doSin(getDifferentNumbers("")[0]); 
         break;
       case "cos":
-        System.out.print("Eingabe: "); 
-        LastCalc = doCos();
+        System.out.print("Eingabe des Wertes: "); 
+        LastCalc = Mathematics.doCos(getDifferentNumbers("")[0]); 
         break;
-      case "tan":
-        System.out.print("Eingabe: ");  
-        LastCalc = doTan();   
+      case "tan":            
+        System.out.print("Eingabe des Wertes: ");         
+        // Hole den User-Input und übergebe ihn an den Tan-Rechner
+        LastCalc = Mathematics.doTan(getDifferentNumbers("")[0]);   
+        break;          
+      case "ach":
+      case "achwas":
+        System.out.print("Eingabe des Wertes: ");  
+        LastCalcString = Mathematics.doAchterbahn(getDifferentNumbers("")[0]);   
         break;    
       case "b":
+        System.out.print("Eingabe (Zahlen durch / trennen):"); 
+        double[] inputArray = getDifferentNumbers("(\\/)");      
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();
+        LastCalcArray = Sortings.doBubbleSort(inputArray);      
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();   
+        break;  
+      case "i": 
+        System.out.print("Eingabe (Zahlen durch / trennen):");   
+        inputArray = getDifferentNumbers("(\\/)");      
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();
+        LastCalcArray = Sortings.doInsertSort(inputArray);      
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();   
+        break;              
+      case "se": 
         System.out.print("Eingabe (Zahlen durch / trennen):");  
-        LastCalcArray = doBubbleSort();
-        break;
+        inputArray = getDifferentNumbers("(\\/)");            
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();
+        LastCalcArray = Sortings.doSelectionSort(inputArray);  
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();   
+        break;  
+      case "qu":
+        System.out.print("Eingabe (Zahlen durch / trennen):");  
+        inputArray = getDifferentNumbers("(\\/)");            
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();
+        LastCalcArray = Sortings.doQuickSort(inputArray, 0, inputArray.length - 1);  
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();   
+        break;  
+      case "b-z":
+        // Gib Random
+        double[] randomArray = printRandomner();
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();
+        // Sortieralgorithmus aufrufen und in Ausgabearray speichern
+        LastCalcArray = Sortings.doBubbleSort(randomArray);  
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();      
+        break;  
+      case "i-z":
+        // Gib Random
+        randomArray = printRandomner();
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();               
+        // Sortieralgorithmus aufrufen und in Ausgabearray speichern
+        LastCalcArray = Sortings.doInsertSort(randomArray);
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern  
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();      
+        break;            
+      case "se-z":
+        // Gib Random (und starte die "Stoppuhr")
+        randomArray = printRandomner();
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();               
+        // Sortieralgorithmus aufrufen und in Ausgabearray speichern
+        LastCalcArray = Sortings.doSelectionSort(randomArray);
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern  
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();      
+        break;      
+      case "qu-z":
+        // Gib Random (und starte die "Stoppuhr")
+        randomArray = printRandomner();
+        // Starte die Stoppuhr
+        MeasureSnippetTime.start();               
+        // Sortieralgorithmus aufrufen und in Ausgabearray speichern
+        LastCalcArray = Sortings.doQuickSort(randomArray, 0, randomArray.length - 1);  
+        // Zeitdifferenz ausrechnen und in Ausgabevariable speichern  
+        LastTimeDiff = MeasureSnippetTime.getDiffNow();      
+        break;      
       default:
-        output = Utils.printBeauty("! Fehler: Ungültige Eingabe bzw. nicht erkanntes Kommando !");
+        output = Utils.makeBeauty("! Fehler: Ungültige Eingabe bzw. nicht erkanntes Kommando !");
     } // end of switch
     
     
@@ -96,10 +204,14 @@ public class Calc {
     {
       // Wenn eine Zahlenliste definiert ist, gibt die statt dem letzten Ergebnis aus
       if (LastCalcArray != null) {
-        output = Utils.printBeauty("Ergebnis: " + Arrays.toString(LastCalcArray));
+        output = Utils.makeBeauty("Ergebnis: " + Arrays.toString(LastCalcArray));
         LastCalcArray = null;
+      } else if (LastCalcString != null) {
+        output = Utils.makeBeauty("Ergebnis: " + LastCalcString);
+        LastCalcString = null;
       } else {
-        output = Utils.printBeauty("Ergebnis: " + LastCalc);
+        // end of if-else
+        output = Utils.makeBeauty("Ergebnis: " + LastCalc);
       }
     } // end of if
     
@@ -112,12 +224,61 @@ public class Calc {
     
     // Ergebnis der letzten Rechnung drucken    
     System.out.println(output);
+    if (output == "Jup.")
+      return;
+    
+    // Ergebnis des letzten Benchmarks drucken
+    if (LastTimeDiff != 0) {
+      System.out.println(Utils.makeBeauty("Laufzeit: " + (LastTimeDiff / 1000000) + " ms"));
+      // Reset
+      LastTimeDiff = 0;
+    } else    
+      System.out.println(Utils.makeBeauty("Laufzeit: Keine Messung durchgeführt."));
     
     // Wenn die Rechnung durchgeführt wurde, erneut fragen
     printCases();
   }
   
-  private static double[] DifferentNumbers(String splitChar) {
+  /**
+   * This function asks the user for a start, end and the number of random values to be generated and returns them
+   *
+   * @return the array of random generated numbers
+   */
+  static double[] printRandomner() {
+    System.out.println("Zahlenbereich und Menge eingeben, in dem zufällige Zahlen generiert werden:"); 
+    
+    ///// DATEN ZUR ERZEUGUNG DER LISTE ABFRAGEN //////            
+    int start, end, amount;
+    // Frage Zahlenbereiche ab..
+    System.out.print("Startwert: ");   
+    start = Integer.parseInt(sc.nextLine().trim());       
+    System.out.print("Endwert: ");   
+    end = Integer.parseInt(sc.nextLine().trim());
+    System.out.print("Zahlenmenge: ");   
+    amount = Integer.parseInt(sc.nextLine().trim());
+    ///////////////////////////////////////////////////
+    
+    System.out.println("Eingabe wird generiert..");  
+    
+    // Nimm die Doubles aus der Eingabe als Integer..
+    double[] randomArray = Utils.generateRandom(start, end, amount);
+    // Gib dem Nutzer das Array zurück und..
+    System.out.println(Utils.makeBeauty("Generiert: " + Arrays.toString(randomArray)));
+    
+    // Fordere eine Bestätigung per Enterkommando - egal was kommt, danach weitermachen
+    System.out.print("Bitte mit Enter bestätigen: "); 
+    sc.nextLine().trim();
+    
+    return randomArray;
+  }
+  
+  /**
+   * This function makes the input possible: It reads the last user input and splits it by the given splitter/seperator
+   *
+   * @param splitChar Requires a Regular Expression after which the input has to be seperated
+   * @return the array of entered numbers
+   */
+  static double[] getDifferentNumbers(String splitChar) {
     // Variablendeklaration
     String input;
     String[] splittedInput;
@@ -153,168 +314,7 @@ public class Calc {
     
     return splittedDoubles; 
   }
-  
-  private static double doAddition() {
-    // Erst die verschiedenen Zahlen aus der Eingabe, getrennt durch "+" holen..
-    double[] splittedDoubles = DifferentNumbers("\\+");
-    // Integer ergebnis initialisieren und mit der ersten eingegebenen Zahl definieren
-    double ergebnis = splittedDoubles[0]; 
-    
-    // Für jede Zahl im Array..
-    for (int i = 1; i < splittedDoubles.length; i++ ) {
-      if (splittedDoubles[i] != 0)  // .. prüfen ob 0..
-        ergebnis += splittedDoubles[i]; // wenn nicht, addieren
-      // end of if
-    } // end of for
-    
-    return ergebnis; // ausgeben
-  }
-  private static double doSubstraction() {
-    // Erst die verschiedenen Zahlen aus der Eingabe, getrennt durch "-" holen..
-    double[] splittedDoubles = DifferentNumbers("\\-");
-    // Integer ergebnis initialisieren und mit "0" definieren
-    double ergebnis = splittedDoubles[0];
-    
-    // Für jede Zahl im Array..
-    for (int i = 1; i < splittedDoubles.length; i++ ) {
-      if (splittedDoubles[i] != 0)  // .. prüfen ob 0..
-        ergebnis -= splittedDoubles[i]; // wenn nicht, subtrahieren
-      // end of if
-    } // end of for
-    
-    return ergebnis; // ausgeben
-  }
-  
-  private static double doMultiplication() {      
-    // Erst die verschiedenen Zahlen aus der Eingabe, getrennt durch "*" oder "x" holen..
-    double[] splittedDoubles = DifferentNumbers("(\\*|x)");
-    // Integer ergebnis initialisieren und mit "0" definieren
-    double ergebnis = splittedDoubles[0];
-    
-    // Für jede Zahl im Array..
-    for (int i = 1; i < splittedDoubles.length; i++ ) {
-      if (splittedDoubles[i] != 0) // .. prüfen ob 0..
-        ergebnis *= splittedDoubles[i]; // wenn nicht, multiplizieren
-      // end of if
-    } // end of for
-    
-    return ergebnis; // ausgeben    
-  }
-  
-  private static double doDivision() {      
-    // Erst die verschiedenen Zahlen aus der Eingabe, getrennt durch "/" oder ":" holen..
-    double[] splittedDoubles = DifferentNumbers("(\\/|:)");
-    // Integer ergebnis initialisieren und mit "0" definieren
-    double ergebnis = splittedDoubles[0];
-    
-    // Für jede Zahl im Array..
-    for (int i = 1; i < splittedDoubles.length; i++ ) {
-      if (splittedDoubles[i] != 0) // .. prüfen ob 0..
-        ergebnis /= splittedDoubles[i]; // wenn nicht, multiplizieren
-      // end of if
-    } // end of for
-    
-    return ergebnis; // ausgeben    
-  }
-  
-  private static double doSqrt() {
-    
-    // Initialisiere die Endvariable und definiere sie mit "0"
-    double ergebnis = 0;
-    
-    try {
-      // Wurzel aus der eingegebenen Zahl ziehen
-      ergebnis = Math.sqrt(DifferentNumbers("")[0]);
-    } catch(Exception e) {
-      // Würde ich hier etwas ausgeben wollen, würde es gelöscht werden bevor es der Nutzer sehen könnte
-    } // end of try
-    
-    return ergebnis; // ausgeben
-  }
-  
-  private static double doSin() {
-    
-    // Initialisiere die Endvariable und definiere sie mit "0"
-    double ergebnis = 0;
-    
-    try {
-      // Wurzel aus der eingegebenen Zahl ziehen
-      ergebnis = Math.sin(DifferentNumbers("")[0]);
-    } catch(Exception e) {
-      
-    } // end of try
-    
-    return ergebnis; // ausgeben
-  }  
-  private static double doCos() {
-    
-    // Initialisiere die Endvariable und definiere sie mit "0"
-    double ergebnis = 0;
-    
-    try {
-      // Wurzel aus der eingegebenen Zahl ziehen
-      ergebnis = Math.cos(DifferentNumbers("")[0]);
-    } catch(Exception e) {
-      
-    } // end of try
-    
-    return ergebnis; // ausgeben
-  }
-  private static double doTan() {
-    
-    // Initialisiere die Endvariable und definiere sie mit "0"
-    double ergebnis = 0;
-    
-    try {
-      // Wurzel aus der eingegebenen Zahl ziehen
-      ergebnis = Math.tan(DifferentNumbers("")[0]);
-    } catch(Exception e) {
-      
-    } // end of try
-    
-    return ergebnis; // ausgeben
-  }
-  
-  ///// SORTIERALGORITHMEN
-  private static double[] doBubbleSort() {
-                      
-    // Erst die verschiedenen Zahlen aus der Eingabe, getrennt durch "/" oder ":" holen..
-    double[] splittedDoubles = DifferentNumbers("(\\/|:)");
-    
-    // Variablen initialisieren
-    boolean unsortiert = true;
-    double temp;
-    
-    while (unsortiert){
-      unsortiert = false;
-      for (int i=0; i < splittedDoubles.length-1; i++) 
-        if (splittedDoubles[i] > splittedDoubles[i+1]) {                      
-          temp   = splittedDoubles[i];
-          splittedDoubles[i]   = splittedDoubles[i+1];
-          splittedDoubles[i+1] = temp;
-          unsortiert = true;
-        }          
-    } 
-    return splittedDoubles;
-  }
 } // end of class Calc
 
-class Utils {
 
-  // Ohne die Angabe, wieviele "=" später gedruckt werden sollen, Standardanzahl verwenden: Soviele wie Zeichen
-  public static String printBeauty(String s) {
-    // Definiere Endstring
-    String output = "";
-    
-    // Zähle Zeichenanzahl im String, der gedruckt werden soll..
-    int charCount = s.length();
-    // Legt erst ein neues Zeichenarray mit der Anzahl der "=" als Größe an und füllt dann alle Nullstellen mit einem "="
-    output += new String(new char[charCount]).replace("\0", "=") + "\n";
-    // Fügt eigentliche Ausgabe + eine neue Zeile an
-    output += s + "\n";
-    // Legt erst ein neues Zeichenarray mit der Anzahl der "=" als Größe an und füllt dann alle Nullstellen mit einem "="
-    output += new String(new char[charCount]).replace("\0", "=") ;
-    
-    return output; // Gibt den String so zurück
-  }
-}
+
