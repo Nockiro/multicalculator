@@ -9,4 +9,4 @@ Contains a simple calculator with a few sorting and other algorithms
 * Utils.java: Contains useful methods for working with calculations and console output
 
 ## Why?
-You shouldn't ask to much.
+You shouldn't ask too much.
