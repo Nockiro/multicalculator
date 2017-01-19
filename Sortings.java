@@ -1,3 +1,10 @@
+/*
+  * Enthält nützliche Methoden um Zahlen zu sortieren
+  *
+  * @version 1.0 created on 13.01.2017
+  * @author Robin Freund
+  */
+  
 class Sortings {
   
   static double[] doBubbleSort(double[] ParamNumbers) {

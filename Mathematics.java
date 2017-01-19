@@ -1,6 +1,6 @@
 /**
   *
-  * Enthält nützliche Klassen um Rechenoperatoren und Zahlen zu verbinden, um mit letzteren zu rechnen
+  * Enthält nützliche Methoden um Rechenoperatoren und Zahlen zu verbinden, um mit letzteren zu rechnen
   *
   * @version 1.0 created on 13.01.2017
   * @author Robin Freund
