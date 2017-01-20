@@ -1,6 +1,6 @@
   /**
   *
-  * Enthält nützliche Methoden um mit Konsolen und Rechenmethoden sinnvoll zu arbeiten
+  * Enthält nützliche Klassen um mit Konsolen und Rechenmethoden sinnvoll zu arbeiten
   *
   * @version 1.0 created on 13.01.2017
   * @author Robin Freund

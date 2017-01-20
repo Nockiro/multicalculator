@@ -1,6 +1,6 @@
 /**
   *
-  * Enthält nützliche Methoden um Rechenoperatoren und Zahlen zu verbinden, um mit letzteren zu rechnen
+  * Enthält nützliche Klassen um Rechenoperatoren und Zahlen zu verbinden, um mit letzteren zu rechnen
   *
   * @version 1.0 created on 13.01.2017
   * @author Robin Freund
@@ -186,6 +186,7 @@ class Mathematics {
       // Füge an die Zahlendurchgänge noch weitere Informationen
       output += "\nAnzahl der Durchgänge: " + laenge;
       output += "\nHöchste gemessene Zahl: " + hoechsteZahl;
+      Graphics.printWhole(steps);
       return output;
     } catch(Exception e) {
       return Arrays.toString(new double[0]);
