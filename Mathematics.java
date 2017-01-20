@@ -139,8 +139,6 @@ class Mathematics {
       double vorzeichen = ergebnis / Math.abs(ergebnis);
       // Definiere den Integer, in dem die Anzahl der Durchgänge festgehalten wird
       int laenge = 0;
-      // Definiere die Zahl, die am höchsten in allen Durchgängen vorkam.
-      double hoechsteZahl = -9999;
       // Definiere die Variable, damit er nicht direkt beim Eingangswert 1 beendet
       boolean Beginning = true;     
       // Initialisiere die Liste, die alle Zwischenschritte enthält, bis der Wert 1 ausgerechnet wird      
@@ -165,9 +163,6 @@ class Mathematics {
           ergebnis = (ergebnis *3) + vorzeichen;
         } // end of if-else
         
-        if (hoechsteZahl < ergebnis)
-          hoechsteZahl = ergebnis;
-        
         // Füge den nächsten Wert der Liste hinzu
         steps.add( ergebnis );
       } // end of while
@@ -181,14 +176,16 @@ class Mathematics {
         endValuesReal[i] = (double) endValues[i];
       
       // Endarray wird in Output-Variable gespeichert
-      String output = Arrays.toString(endValuesReal); // ausgeben   
+      String output = " (Schritte)\n" + Arrays.toString(endValuesReal); // ausgeben   
       
       // Füge an die Zahlendurchgänge noch weitere Informationen
       output += "\nAnzahl der Durchgänge: " + laenge;
-      output += "\nHöchste gemessene Zahl: " + hoechsteZahl;
+      output += "\nHöchste gemessene Zahl: " + Collections.max(steps);
+      
       Graphics.printWhole(steps);
+      
       return output;
-    } catch(Exception e) {
+    } catch(Exception e) {      
       return Arrays.toString(new double[0]);
     } // end of try
     

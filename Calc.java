@@ -5,7 +5,7 @@
   * Dient zur Verwendung von Zahlen in jeder Hinsicht
   * Diese Klasse enthält alle Methoden zur Interaktion mit der Konsole
   * 
-  * @version 1.2 vom 13.01.2017
+  * @version 1.3 vom 20.01.2017
   * @author Robin Freund
   */
 import java.io.IOException;
@@ -18,12 +18,21 @@ public class Calc {
   public static double LastCalc = 0;
   public static double LastTimeDiff = 0;
   public static double[] LastCalcArray;
-  public static String LastCalcString;
+  public static String LastCalcString;       
+  static int consoleWidth = 150;
+
          
   /**
    * Main program // Hauptprogramm
    */
   public static void main(String[] args) {
+    try {      
+      //set Windows (!!) Terminal width 100, height 30
+      new ProcessBuilder("cmd", "/c", "mode " + consoleWidth + "").inheritIO().start().waitFor();
+    } catch(Exception e) {
+      
+    } 
+    
     printCases(); // "Hilfe" ausgeben und "Programm starten"
   } // end of main
   
@@ -74,9 +83,6 @@ public class Calc {
       case "e":
       case "x":
         return;
-      case "daniel stinkt":
-        output = "Jup.";
-        break;
       case "debug":
         output = Utils.makeBeauty("Letztes Ergebnis: " + LastCalc);
         break;
@@ -193,7 +199,10 @@ public class Calc {
         LastCalcArray = Sortings.doQuickSort(randomArray, 0, randomArray.length - 1);  
         // Zeitdifferenz ausrechnen und in Ausgabevariable speichern  
         LastTimeDiff = MeasureSnippetTime.getDiffNow();      
-        break;      
+        break;   
+      case "daniel":
+        output = "Jup. Die Belohnung liegt im Waschbecken";
+        break;   
       default:
         output = Utils.makeBeauty("! Fehler: Ungültige Eingabe bzw. nicht erkanntes Kommando !");
     } // end of switch
@@ -266,10 +275,18 @@ public class Calc {
     System.out.println(Utils.makeBeauty("Generiert: " + Arrays.toString(randomArray)));
     
     // Fordere eine Bestätigung per Enterkommando - egal was kommt, danach weitermachen
-    System.out.print("Bitte mit Enter bestätigen: "); 
-    sc.nextLine().trim();
+    demandConfirmation();
     
     return randomArray;
+  }
+  
+  /**
+   * This function demands a confirmation with a key press to continue
+   */
+  static void demandConfirmation() {
+    // Fordere eine Bestätigung per Enterkommando - egal was kommt, danach weitermachen
+    System.out.println("Bitte mit Enter bestätigen: "); 
+    sc.nextLine().trim();
   }
   
   /**
