@@ -7,6 +7,11 @@ Contains a simple calculator with a few sorting and other algorithms
 * Sortings.java: Contains methods for sorting numbers
 * MeasureSnippetTime.java: Contains methods for calculating the time after a method
 * Utils.java: Contains useful methods for working with calculations and console output
+* Graphics.java: Contains methods for visualizing calculation
+
+## Examples
+### Collatz conjecture (also known as roller coaster numbers) visualisation
+![Collatz conjecture visualisation](https://raw.githubusercontent.com/nockiro/multicalculator/master/achterbahn.gif "Collatz conjecture")
 
 ## Why?
 You shouldn't ask too much.

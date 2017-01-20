@@ -6,7 +6,7 @@
   * Diese Klasse enthält alle Methoden zur Interaktion mit der Konsole
   * 
   * @version 1.3 vom 20.01.2017
-  * @author Robin Freund
+  * @author Robin Freund            
   */
 import java.io.IOException;
 import java.util.*;

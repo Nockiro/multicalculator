@@ -163,7 +163,7 @@ class Mathematics {
           ergebnis = (ergebnis *3) + vorzeichen;
         } // end of if-else
         
-        // Füge den nächsten Wert der Liste hinzu
+        // Füge den nächsten Wert der Liste hinzu  
         steps.add( ergebnis );
       } // end of while
       
