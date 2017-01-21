@@ -25,7 +25,7 @@ class Graphics {
       try {     
         // clear console and make it ready for the next animation "frame"
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();   
-                  
+        
         // Get frame for the current part of the list and print it
         String tempPrint = printPart(fullList.subList(i, i+ Math.min(fullList.size() - i, Calc.consoleWidth / 2)), rowCount);
         System.out.print(tempPrint);
@@ -52,18 +52,23 @@ class Graphics {
     // print debug information in the upper left corner
     System.out.println("RowCount: " + rowCount);
     System.out.println("Elements on this Screen: " + part.size());    
-           
+    
+    
     String output = "";
     
     // Soviele Zeilen wie es an Höhe werden soll plus die für die Zahlen         
-    // iterate through the loop as many times as we need to have the given amount of rows
-    for (int row = rowCount + 1; row >= 0; row-- ) {
+    // iterate through the loop as many times as we need to have the given amount of rows plus the base one
+    for (int row = rowCount + 1; row >= -1; row-- ) {
       // Depending on the scaled logarithm value, check if there has to be a representative character for each real value 
-      for (int i = 0; i < part.size() - 1; i++) {
-        if (Math.log(Math.abs(part.get(i))) >= row)
-          output += "##";
-        else
-          output += "  ";
+      for (int i = 0; i < part.size() - 1; i++) {     
+        // if it's the last row, make a base line - if not, make the normal columns
+        if (row > -1) {
+          if (Math.log(Math.abs(part.get(i))) >= row)
+            output += "# ";
+          else
+            output += "  ";
+        } else
+          output += "¯¯";
       } // end of for
       // new line, prepare next line for this frame
       output += "\r\n";
