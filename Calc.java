@@ -40,7 +40,7 @@ public class Calc {
    * Gibt nacheinander die Möglichkeiten aus, das Programm zu benutzen
    */
   private static void printCases() {
-    System.out.println(Utils.makeBeauty("------Taschenrechner------\nEs gibt acht Möglichkeiten, mit Zahlen zu rechnen:"));  
+    System.out.println(Utils.makeBeauty("------Taschenrechner------\nEs gibt acht Möglichkeiten, mit Zahlen zu rechnen:", consoleWidth - 1));  
     System.out.println("> (A)ddition");  
     System.out.println("> (S)ubtraktion");  
     System.out.println("> (M)ultiplikation");  

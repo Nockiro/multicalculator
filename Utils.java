@@ -11,16 +11,16 @@ import java.util.*;
 public class Utils {
 
   /**
-   * Creates a (for a console) beautified string - means: =========, new line, text, again =======
+   * Creates a (for a console) beautified string - means: =========, new line, text, again =======  (as much as given in paramter)
    *
    * @return the beautified string
    */
-  public static String makeBeauty(String s) {
+  public static String makeBeauty(String s, int count) {
     // Definiere Endstring
     String output = "";
     
     // Zähle Zeichenanzahl im String, der gedruckt werden soll - oder maximale Zeilenlänge
-    int charCount = s.length() > 79 ? 79 : s.length();
+    int charCount = count;
     // Legt erst ein neues Zeichenarray mit der Anzahl der "=" als Größe an und füllt dann alle Nullstellen mit einem "="
     output += new String(new char[charCount]).replace("\0", "=") + "\n";
     // Fügt eigentliche Ausgabe + eine neue Zeile an
@@ -30,6 +30,16 @@ public class Utils {
     
     return output; // Gibt den String so zurück
   }
+  
+  /**
+   * Method overload: Creates as many ==== as the string requires
+   *
+   * @return the beautified string
+   */
+  public static String makeBeauty(String s) {
+    return makeBeauty(s, s.length() > Calc.consoleWidth ? Calc.consoleWidth - 1: s.length());
+  }
+  
   /**
    * Generates random doubles in the given range and given amount
    *
